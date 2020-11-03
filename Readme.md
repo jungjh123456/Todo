@@ -14,6 +14,7 @@ const $completedTodos = document.querySelector('.completed-todos');
 const $activeTodos = document.querySelector('.active-todos');
 const $btn = document.querySelector('.btn');
 const $nav = document.querySelector('.nav');
+const $li = document.querySelectorAll('.nav > li');
 
 // 함수
 
@@ -108,17 +109,18 @@ $btn.onclick = () => {
 };
 
 // Active Completed(체크 안한것)
-const $li = document.querySelectorAll('.nav > li');
 
 const activeClick = e => {
-  e.target.id === 'active' ? todosrename = notCompleted()
-    : e.target.id === 'completed' ? todosrename = checkCompleted() : '';
+  if (e.target.id === 'active') todosrename = notCompleted()
+  else if (e.target.id === 'completed') todosrename = checkCompleted();
 };
 
 $nav.onclick = e => {
   [...$li].forEach(li => li.classList.remove('active'));
   e.target.classList.toggle('active');
   activeClick(e);
-  e.target.id === 'all' ? render(todos) : render(todosrename);
+  if (e.target.id === 'all') render(todos);
+  else render(todosrename);
 };
+
 ```
