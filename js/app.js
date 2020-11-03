@@ -29,7 +29,7 @@ const countFilterActive = () => {
 
 // id 최대값
 
-const maxId = () => (todos.length ? Math.max(...todos.map(todo => todo.id)) + 1 : 1); 
+const maxId = () => (todos.length ? Math.max(...todos.map(todo => todo.id)) + 1 : 1);
 
 // completed
 
@@ -98,7 +98,7 @@ $completeAll.onchange = e => {
 };
 
 // clear completed 누르면 클릭 된거 삭제
-$btn.onclick = e => {
+$btn.onclick = () => {
   todos = notCompleted();
   render(todos);
   countFilter();
