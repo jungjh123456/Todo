@@ -7,6 +7,7 @@ let todos = [];
 let todosrename = [];
 // 요소 찾기
 
+
 const $todos = document.querySelector('.todos');
 const $inputTodo = document.querySelector('.input-todo');
 const $completeAll = document.querySelector('.complete-all');
@@ -15,6 +16,7 @@ const $activeTodos = document.querySelector('.active-todos');
 const $btn = document.querySelector('.btn');
 const $nav = document.querySelector('.nav');
 const $li = document.querySelectorAll('.nav > li');
+const $checkbox = document.querySelector('.checkbox');
 
 // 함수
 
@@ -79,9 +81,15 @@ $inputTodo.onkeyup = e => {
 $todos.onchange = e => {
   todos = todos.map(todo => (todo.id === +e.target.parentNode.id
     ? { ...todo, completed: !todo.completed } : todo));
+  if (todosrename.length === 0) return;
+  todosrename = todosrename.map(todo => (todo.id === +e.target.parentNode.id
+    ? { ...todo, completed: !todo.completed } : todo));
+   todosrename = todosrename.filter(todo => todo.id !== +e.target.parentNode.id);
+  render(todosrename);
   countFilter();
   countFilterActive();
 };
+
 
 // remove
 $todos.onclick = e => {
@@ -96,6 +104,7 @@ $completeAll.onchange = e => {
   console.log(e.target);
   todos = todos.map(todo => (e.target.checked
     ? { ...todo, completed: true } : { ...todo, completed: false }));
+
   render(todos);
   countFilter();
   countFilterActive();
@@ -106,13 +115,20 @@ $btn.onclick = () => {
   todos = notCompleted();
   render(todos);
   countFilter();
+  $checkbox.checked = false;
 };
 
 // Active Completed(체크 안한것)
 
 const activeClick = e => {
-  if (e.target.id === 'active') todosrename = notCompleted()
-  else if (e.target.id === 'completed') todosrename = checkCompleted();
+  if (e.target.id === 'active') {
+    todosrename = notCompleted();
+    // todosrename = todosrename.map(todo => (todo.id === +e.target.parentNode.id
+    //   ? { ...todo, completed: !todo.completed } : todo));
+  }
+  else if (e.target.id === 'completed') {
+     todosrename = checkCompleted();
+};
 };
 
 $nav.onclick = e => {
@@ -120,7 +136,10 @@ $nav.onclick = e => {
   e.target.classList.toggle('active');
   activeClick(e);
   if (e.target.id === 'all') render(todos);
-  else render(todosrename);
+  else {
+    render(todosrename);
+  }
 };
+
 
 ```
