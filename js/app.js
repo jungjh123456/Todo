@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-expressions */
 // State
 let todos = [];
 let todosrename = [];

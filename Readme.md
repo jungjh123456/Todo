@@ -2,9 +2,6 @@
 app.js
 
 ```js
-/* eslint-disable no-unused-expressions */
-// State
-/* eslint-disable no-unused-expressions */
 // State
 let todos = [];
 let todosrename = [];
