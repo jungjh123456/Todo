@@ -50,7 +50,7 @@ const render = todoy => {
   });
   $todos.innerHTML = html;
 };
-ok!sada
+
 // 서버 데이터
 const fetchTodos = () => {
   todos = [
