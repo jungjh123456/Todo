@@ -14,7 +14,7 @@ const $li = document.querySelectorAll('.nav > li');
 const $checkbox = document.querySelector('.checkbox');
 const $active = document.getElementById('active');
 const $completed = document.getElementById('completed');
-
+const $all = document.getElementById('all');
 // 함수
 
 // clear completed 체크 갯수
@@ -50,7 +50,7 @@ const render = todoy => {
   });
   $todos.innerHTML = html;
 };
-
+ok!sada
 // 서버 데이터
 const fetchTodos = () => {
   todos = [
@@ -125,7 +125,7 @@ $completeAll.onchange = e => {
   } else if ($completed.classList.contains('active')) {
     completeCheck(e);
     render(todosrename);
-  } else {
+  } else if ($all.classList.contains('active')){
     render(todos);
   }
   countFilter();
