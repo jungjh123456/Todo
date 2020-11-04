@@ -141,7 +141,7 @@ $btn.onclick = () => {
 };
 
 // Active Completed(체크 안한것)
-
+  
 const activeClick = e => {
   if (e.target.id === 'active') {
     todosrename = notCompleted();
