@@ -5,9 +5,8 @@ app.js
 // State
 let todos = [];
 let todosrename = [];
+
 // 요소 찾기
-
-
 const $todos = document.querySelector('.todos');
 const $inputTodo = document.querySelector('.input-todo');
 const $completeAll = document.querySelector('.complete-all');
@@ -17,6 +16,8 @@ const $btn = document.querySelector('.btn');
 const $nav = document.querySelector('.nav');
 const $li = document.querySelectorAll('.nav > li');
 const $checkbox = document.querySelector('.checkbox');
+const $active = document.getElementById('active');
+const $completed = document.getElementById('completed');
 
 // 함수
 
@@ -75,21 +76,39 @@ $inputTodo.onkeyup = e => {
   todos = [{ id: maxId(), content: $inputTodo.value, completed: false }, ...todos];
   render(todos);
   $inputTodo.value = '';
+  countFilter();
+  countFilterActive();
+};
+
+const activeRemove = e => {
+  if (todosrename.length !== 0) {
+    todosrename = todosrename.map(todo => (todo.id === +e.target.parentNode.id
+      ? { ...todo, completed: !todo.completed } : todo));
+    todosrename = todosrename.filter(todo => todo.id !== +e.target.parentNode.id);
+    render(todosrename);
+  }
 };
 
 // 체크 박스 이벤트(todos 변경)
 $todos.onchange = e => {
   todos = todos.map(todo => (todo.id === +e.target.parentNode.id
     ? { ...todo, completed: !todo.completed } : todo));
-  if (todosrename.length === 0) return;
-  todosrename = todosrename.map(todo => (todo.id === +e.target.parentNode.id
-    ? { ...todo, completed: !todo.completed } : todo));
-   todosrename = todosrename.filter(todo => todo.id !== +e.target.parentNode.id);
-  render(todosrename);
+  activeRemove(e);
   countFilter();
   countFilterActive();
 };
 
+const activeCheck = e => {
+  todosrename = todosrename.map(todo => (e.target.checked
+    ? { ...todo, completed: true } : { ...todo, completed: false }));
+  todosrename = todosrename.filter(todo => todo.completed !== true);
+};
+
+const completeCheck = e => {
+  todosrename = todosrename.map(todo => (e.target.checked
+    ? { ...todo, completed: true } : { ...todo, completed: false }));
+  todosrename = todosrename.filter(todo => todo.completed === true);
+};
 
 // remove
 $todos.onclick = e => {
@@ -101,11 +120,18 @@ $todos.onclick = e => {
 // 모두 선택 모두 선택 해제
 
 $completeAll.onchange = e => {
-  console.log(e.target);
   todos = todos.map(todo => (e.target.checked
     ? { ...todo, completed: true } : { ...todo, completed: false }));
 
-  render(todos);
+  if ($active.classList.contains('active')) {
+    activeCheck(e);
+    render(todosrename);
+  } else if ($completed.classList.contains('active')) {
+    completeCheck(e);
+    render(todosrename);
+  } else {
+    render(todos);
+  }
   countFilter();
   countFilterActive();
 };
@@ -125,10 +151,9 @@ const activeClick = e => {
     todosrename = notCompleted();
     // todosrename = todosrename.map(todo => (todo.id === +e.target.parentNode.id
     //   ? { ...todo, completed: !todo.completed } : todo));
+  } else if (e.target.id === 'completed') {
+    todosrename = checkCompleted();
   }
-  else if (e.target.id === 'completed') {
-     todosrename = checkCompleted();
-};
 };
 
 $nav.onclick = e => {
@@ -140,6 +165,5 @@ $nav.onclick = e => {
     render(todosrename);
   }
 };
-
 
 ```
